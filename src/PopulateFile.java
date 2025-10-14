@@ -14,7 +14,7 @@ public class PopulateFile {
 
     public PopulateFile(String fileName){
         tempPassword = "";
-        this.fileName = fileName + ".txt";
+        this.fileName = fileName;
     }
 
     public void populateFile(){
