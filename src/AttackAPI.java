@@ -26,8 +26,7 @@ public class AttackAPI implements Runnable{
         HttpRequest myRequest = HttpRequest.newBuilder()
             .uri(URI.create("http://recruitment.warpdevelopment.co.za/api/v2/authenticate"))
             .header("Authorization", "Basic " + encodedAuthenticator)
-            .header("Content-Type", "application/json")
-            .POST(HttpRequest.BodyPublishers.ofString("{}"))
+            .GET()
             .build();
 
         HttpResponse<String> myResponse;
@@ -41,8 +40,9 @@ public class AttackAPI implements Runnable{
             System.exit(0);
         }
 
-        if (myResponse.statusCode() != 403){
+        if (myResponse.statusCode() != 500 & myResponse.statusCode() != 401){
              System.out.println("Status code: " + myResponse.statusCode());
+             System.out.println("Response: " + myResponse.body());
         }
 
     }
