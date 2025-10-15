@@ -8,28 +8,31 @@ public class PopulateFile {
     String fileName;
     
     public PopulateFile(){
+        /* Default constructor. */
         tempPassword = "";
         fileName = "dict.txt";
     }
 
     public PopulateFile(String fileName){
+        /* PopulateFile constructor. */
         tempPassword = "";
         this.fileName = fileName;
     }
 
     public void populateFile(){
 
+        /* Method populating the dict file with passwords. */
+        
         FileWriter myWriter = null;
         Path filePath = Path.of("../files/" + fileName);
 
         try{
             Files.deleteIfExists(filePath);
-            System.out.println("Existing file " + fileName + " deleted.");
         }
 
         catch (Exception e){
-
-        }
+            System.out.println("File " + fileName + " does not currently exist.");
+        }   /* Deletes a file with a similar filename should it exist in directory in preparation to create a new one. */  
 
         try{
             Files.createFile(filePath);
@@ -38,7 +41,9 @@ public class PopulateFile {
 
         catch (Exception e){
             System.out.println(e);
-        }
+            System.out.println("Exiting Application.");
+            System.exit(0);
+        }   /* Attempt to create the dict file. */
 
         try{
             myWriter = new FileWriter(filePath.toFile(), true);
@@ -46,10 +51,12 @@ public class PopulateFile {
 
         catch (Exception e){
             System.out.println(e);
+            System.out.println("Exiting Application.");
             System.exit(0);
-        }
+        }   /* Attempt to create a writer object for the file. */
  
         int count = 0;
+
         for (String p: new String[] {"P", "p"}){
             for (String a: new String[] {"A", "a", "@"}){
                 for (String s1: new String[] {"S", "s", "5"}){
@@ -64,8 +71,9 @@ public class PopulateFile {
                                         }
                                         catch(Exception e){
                                             System.out.println(e);
+                                            System.out.println("Exiting Application.");
                                             System.exit(0);
-                                        }
+                                        }   /* Attempt to write the respective password combination value on the file. */
                                         count += 1;
                                     }
                                 }                          
@@ -75,13 +83,18 @@ public class PopulateFile {
                 }
             }
         }
+
         try{
             myWriter.close();
         }
+        
         catch (Exception e){
             System.out.println(e);
-        }
+            System.out.println("Exiting Application.");
+            System.exit(0);
+        }   /* Attempt to close file. */
 
-        System.out.println(count);
+        System.out.println(count + " combinations created.\n");
+
     }
 }
